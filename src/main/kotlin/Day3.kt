@@ -15,21 +15,20 @@ class Day3(private val scheme: List<String>) {
 
         return nums.entries.sumOf { (coord, numStr) ->
             details.keys.find {
-                ((coord.x - 1) <= it.x && it.x <= (coord.x + numStr.length)
-                    && (coord.y - 1) <= it.y && it.y <= (coord.y + 1))
+                isNeighbourOf(it, coord, numStr.length)
             }?.let { numStr.toInt() } ?: 0
         }
     }
+
 
     fun solveSecondPart(): Int {
         val (nums, details) = parseScheme()
 
         return details.filterValues { it == '*' }.keys.sumOf { it ->
             var produce = 1
-            var findedNums: Int = 0
+            var findedNums = 0
             nums.keys.forEach { coord ->
-                if ((coord.x - 1) <= it.x && it.x <= (coord.x + nums[coord]!!.length)
-                    && (coord.y - 1) <= it.y && it.y <= (coord.y + 1)) {
+                if (isNeighbourOf(it, coord, nums[coord]!!.length)) {
                     findedNums += 1
                     produce *= nums[coord]!!.toInt()
                 }
@@ -37,6 +36,10 @@ class Day3(private val scheme: List<String>) {
             if (findedNums >= 2) produce else 0
         }
     }
+
+    private fun isNeighbourOf(it: Coordinate, coord: Coordinate, width: Int) =
+        (it.x in (coord.x - 1)..(coord.x + width)
+                && it.y in (coord.y - 1)..(coord.y + 1))
 
     private fun parseScheme(): Pair<MutableMap<Coordinate, String>, MutableMap<Coordinate, Char>> {
         val numStr = StringBuilder()
@@ -69,6 +72,4 @@ class Day3(private val scheme: List<String>) {
         }
         return Pair(nums, details)
     }
-
-
 }
