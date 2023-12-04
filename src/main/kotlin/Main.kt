@@ -1,7 +1,9 @@
 import inputdata.TEST_D2_CONDITION
+import inputdata.TEST_D3
 
 fun main() {
-    val d = Day2(readFileText("day2.txt")!!.lines().filter { it.isNotEmpty() }, TEST_D2_CONDITION)
+    val d = Day3(readFileText("day3.txt")!!.lines())
+//    val d = Day3(TEST_D3.lines())
 
     println(d.solveFirstPart())
     println(d.solveSecondPart())
